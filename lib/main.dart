@@ -1,3 +1,5 @@
+import 'package:app/provider/cart_items.dart';
+import 'package:app/screens/cart_screen.dart';
 import 'package:flutter/material.dart';
 import 'utils/app_routes.dart';
 import 'screens/product_overview_screen.dart';
@@ -15,8 +17,10 @@ class MyStore extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => Products()),
+        ChangeNotifierProvider(create: (_) => Cart()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'My Store',
         theme: ThemeData(
           primarySwatch: Colors.purple,
@@ -26,6 +30,7 @@ class MyStore extends StatelessWidget {
         home: ProductOverview(),
         routes: {
           AppRoutes.Product_Details: (ctx) => ProductDetails(),
+          AppRoutes.Cart: (ctx) => CartScreen(),
         },
       ),
     );

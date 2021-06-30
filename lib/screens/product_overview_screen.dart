@@ -1,8 +1,11 @@
-import 'package:app/models/product.dart';
+import 'package:app/utils/push_page.dart';
+import 'package:app/widgets/badge.dart';
 import 'package:app/provider/products.dart';
 import 'package:app/widgets/product_grid.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import '../provider/cart_items.dart';
+import '../utils/app_routes.dart';
 
 class ProductOverview extends StatefulWidget {
   @override
@@ -17,7 +20,6 @@ class _ProductOverviewState extends State<ProductOverview> {
     return Scaffold(
       appBar: AppBar(
         title: Text("My Store"),
-        centerTitle: true,
         actions: [
           PopupMenuButton(
             onSelected: (int contador) {
@@ -39,6 +41,16 @@ class _ProductOverviewState extends State<ProductOverview> {
               )
             ],
           ),
+          Consumer<Cart>(
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () => pushPage(context, AppRoutes.Cart),
+            ),
+            builder: (_, cart, child) => Badge(
+              value: cart.itemCount.toString(),
+              child: child,
+            ),
+          )
         ],
       ),
       body: ProductsGrid(),
