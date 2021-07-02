@@ -14,10 +14,20 @@ class Cart with ChangeNotifier {
     return _items.length;
   }
 
+  double get totalAmount {
+    double total = 0;
+    _items.forEach((key, cartItem) {
+      total += cartItem.price * cartItem.quantity;
+    });
+    return total;
+  }
+
   void addItem(Product product) {
     if (_items.containsKey(product.id)) {
       _items.update(product.id, (existingItem) {
         return CartItem(
+            productId: product.id,
+            imgUrl: existingItem.imgUrl,
             id: existingItem.id,
             title: existingItem.title,
             quantity: existingItem.quantity + 1,
@@ -27,13 +37,24 @@ class Cart with ChangeNotifier {
       _items.putIfAbsent(
         product.id,
         () => CartItem(
-          id: Random().nextDouble().toString(),
-          title: product.title,
-          quantity: 1,
-          price: product.price,
-        ),
+            id: Random().nextDouble().toString(),
+            title: product.title,
+            quantity: 1,
+            price: product.price,
+            productId: product.id,
+            imgUrl: product.imageUrl),
       );
     }
+    notifyListeners();
+  }
+
+  void removeItem(String productId) {
+    _items.remove(productId);
+    notifyListeners();
+  }
+
+  void clearCart() {
+    _items.clear();
     notifyListeners();
   }
 }

@@ -1,4 +1,5 @@
 import 'package:app/utils/push_page.dart';
+import 'package:app/widgets/app_drawer.dart';
 import 'package:app/widgets/badge.dart';
 import 'package:app/provider/products.dart';
 import 'package:app/widgets/product_grid.dart';
@@ -14,6 +15,7 @@ class ProductOverview extends StatefulWidget {
 
 class _ProductOverviewState extends State<ProductOverview> {
   bool toggleFAvorite = false;
+  final pushPage = new Navigation();
 
   Widget build(BuildContext context) {
     Products product = Provider.of(context);
@@ -44,7 +46,7 @@ class _ProductOverviewState extends State<ProductOverview> {
           Consumer<Cart>(
             child: IconButton(
               icon: Icon(Icons.shopping_cart),
-              onPressed: () => pushPage(context, AppRoutes.Cart),
+              onPressed: () => pushPage.pushPage(context, AppRoutes.Cart),
             ),
             builder: (_, cart, child) => Badge(
               value: cart.itemCount.toString(),
@@ -53,6 +55,7 @@ class _ProductOverviewState extends State<ProductOverview> {
           )
         ],
       ),
+      drawer: AppDrawer(),
       body: ProductsGrid(),
     );
   }

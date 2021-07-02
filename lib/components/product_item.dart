@@ -7,6 +7,8 @@ import '../utils/push_page.dart';
 import 'package:app/utils/app_routes.dart';
 
 class ProductItem extends StatelessWidget {
+  final pushPage = new Navigation();
+
   @override
   Widget build(BuildContext context) {
     final Product product = Provider.of<Product>(context, listen: false);
@@ -15,7 +17,8 @@ class ProductItem extends StatelessWidget {
       borderRadius: BorderRadius.circular(10),
       child: GridTile(
         child: GestureDetector(
-          onTap: () => pushPage(context, AppRoutes.Product_Details, product),
+          onTap: () =>
+              pushPage.pushPage(context, AppRoutes.Product_Details, product),
           child: Image.network(
             product.imageUrl,
             fit: BoxFit.cover,
