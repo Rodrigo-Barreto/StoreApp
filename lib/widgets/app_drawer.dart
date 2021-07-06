@@ -24,6 +24,12 @@ class AppDrawer extends StatelessWidget {
             leading: Icon(Icons.payment),
             title: Text('Orders'),
             onTap: () => pushPage.pushRepace(context, AppRoutes.Orders_Screem),
+          ),
+          Divider(),
+          ListTile(
+            leading: Icon(Icons.edit),
+            title: Text('Edit Products'),
+            onTap: () => pushPage.pushRepace(context, AppRoutes.ProductScreen),
           )
         ],
       ),
