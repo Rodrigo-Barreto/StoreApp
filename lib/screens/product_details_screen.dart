@@ -37,7 +37,7 @@ class ProductDetails extends StatelessWidget {
               padding: EdgeInsets.symmetric(horizontal: 10),
               width: double.infinity,
               child: Text(
-                product.description,
+                product.description.toString(),
                 textAlign: TextAlign.center,
               ),
             )

@@ -4,4 +4,5 @@ class AppRoutes {
   static const Orders_Screem = '/orders_screen';
   static const Home = '/Home';
   static const ProductScreen = '/product-screen';
+  static const ProductFormScreen = '/product-form-sscreen';
 }

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:app/utils/push_page.dart';
 import 'package:app/widgets/app_drawer.dart';
 import 'package:app/widgets/badge.dart';
@@ -16,6 +18,19 @@ class ProductOverview extends StatefulWidget {
 class _ProductOverviewState extends State<ProductOverview> {
   bool toggleFAvorite = false;
   final pushPage = new Navigation();
+  bool isLoading = true;
+
+  void initState() {
+    super.initState();
+
+    Provider.of<Products>(context, listen: false).loadProducts().then((value) {
+      setState(() {
+        isLoading = false;
+      });
+    });
+
+    // responsavel por carregar os produtos
+  }
 
   Widget build(BuildContext context) {
     Products product = Provider.of(context);
@@ -56,7 +71,11 @@ class _ProductOverviewState extends State<ProductOverview> {
         ],
       ),
       drawer: AppDrawer(),
-      body: ProductsGrid(),
+      body: isLoading
+          ? Center(
+              child: CircularProgressIndicator(),
+            )
+          : ProductsGrid(),
     );
   }
 }
