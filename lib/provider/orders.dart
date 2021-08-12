@@ -1,11 +1,10 @@
 import 'dart:convert';
-import 'dart:math';
-
 import 'package:app/models/cart.dart';
 import 'package:app/provider/cart_items.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/order.dart';
+import '../utils/urls.dart';
 
 class Orders with ChangeNotifier {
   List<Order> _orders = [];
@@ -14,8 +13,7 @@ class Orders with ChangeNotifier {
     return [..._orders];
   }
 
-  final String _baseUrl =
-      'https://flutter-studies-ec810-default-rtdb.firebaseio.com/orders';
+  final String _baseUrl = '${baseUrl.BASE_API_URL}orders';
 
   Future<void> addOrder(Cart cart) async {
     final date = DateTime.now();

@@ -3,12 +3,12 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import '../models/product.dart';
+import '../utils/urls.dart';
 
 class Products with ChangeNotifier {
   final List<Product> _items = [];
 
-  final String _baseUrl =
-      'https://flutter-studies-ec810-default-rtdb.firebaseio.com/products';
+  final String _baseUrl = '${baseUrl.BASE_API_URL}/products';
 
   Future<void> loadProducts() async {
     final response = await http.get(Uri.parse('$_baseUrl.json'));
@@ -98,21 +98,19 @@ class Products with ChangeNotifier {
     final index = _items.indexWhere((prod) => prod.id == id);
 
     if (index >= 0) {
-
       var product = _items[index];
 
       _items.remove(product);
       notifyListeners();
 
-      final response = await http.delete(Uri.parse("$_baseUrl/${product.id}.json"));
+      final response =
+          await http.delete(Uri.parse("$_baseUrl/${product.id}.json"));
 
-      if(response.statusCode>=400){
+      if (response.statusCode >= 400) {
         _items.insert(index, product);
         notifyListeners();
-        throw('Http Error');
-
+        throw ('Http Error');
       }
-      
     }
   }
 }
