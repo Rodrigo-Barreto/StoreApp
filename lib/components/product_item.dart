@@ -14,6 +14,8 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final scaffoldMessenger = ScaffoldMessenger.of(context);
+
     return ListTile(
       title: Text(product.title),
       leading: CircleAvatar(
@@ -50,11 +52,18 @@ class ProductItem extends StatelessWidget {
                       )
                     ],
                   ),
-                ).then((value) {
-                  print(value);
-                  if (value) {
-                    Provider.of<Products>(context, listen: false)
-                        .deleteProduct(product.id);
+                ).then((value) async {
+                  try {
+                    if (value) {
+                      await Provider.of<Products>(context, listen: false)
+                          .deleteProduct(product.id);
+                    }
+                  } catch (error) {
+                    scaffoldMessenger.showSnackBar(
+                      SnackBar(
+                        content: Text('Http error'),
+                      ),
+                    );
                   }
                 });
               },

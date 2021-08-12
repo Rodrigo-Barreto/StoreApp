@@ -6,9 +6,21 @@ import 'package:provider/provider.dart';
 import '../utils/push_page.dart';
 import '../utils/app_routes.dart';
 
-class ProductScreen extends StatelessWidget {
+class ProductScreen extends StatefulWidget {
+  @override
+  _ProductScreenState createState() => _ProductScreenState();
+}
+
+class _ProductScreenState extends State<ProductScreen> {
+  Future<void> refreshProducts(BuildContext context) {
+    return Provider.of<Products>(context, listen: false).loadProducts();
+  }
+
+ 
+
   @override
   final pushPage = Navigation();
+
   Widget build(BuildContext context) {
     final Products products = Provider.of(context);
     return Scaffold(
@@ -24,20 +36,23 @@ class ProductScreen extends StatelessWidget {
         ],
         title: Text('Products Manager'),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(8),
-        child: ListView.builder(
-            itemCount: products.itemsCount,
-            itemBuilder: (ctx, item) {
-              return Column(
-                children: [
-                  ProductItem(
-                    product: products.items[item],
-                  ),
-                  Divider(),
-                ],
-              );
-            }),
+      body: RefreshIndicator(
+        onRefresh: () => refreshProducts(context),
+        child: Padding(
+          padding: EdgeInsets.all(8),
+          child: ListView.builder(
+              itemCount: products.itemsCount,
+              itemBuilder: (ctx, item) {
+                return Column(
+                  children: [
+                    ProductItem(
+                      product: products.items[item],
+                    ),
+                    Divider(),
+                  ],
+                );
+              }),
+        ),
       ),
     );
   }

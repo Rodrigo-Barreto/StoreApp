@@ -67,6 +67,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
   }
 
   Future<void> _saveForm() async {
+    final productModal = ModalRoute.of(context).settings.arguments as Product;
     var isValid = _form.currentState.validate();
 
     if (!isValid) {
@@ -75,6 +76,7 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
     _form.currentState.save();
 
     final Product newProduct = Product(
+      id: _formData['id'],
       title: _formData['title'],
       description: _formData['description'],
       price: _formData['price'],
@@ -86,36 +88,32 @@ class _ProductFormScreenState extends State<ProductFormScreen> {
       _isLoading = true;
     });
 
-    if (_formData['id'] == null) {
-      try {
+    try {
+      if (_formData['id'] == null) {
         await products.addProduct(newProduct);
-        Navigator.of(context).pop();
-      } catch (error) {
-        await showDialog<Null>(
-          context: context,
-          builder: (ctx) => AlertDialog(
-            title: Text("Error"),
-            content: Text(
-              'Inespered Error',
-            ),
-            actions: [
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.of(context).pop();
-                },
-                child: Text('ok'),
-              )
-            ],
-          ),
-        );
-      } finally {
-        setState(() {
-          _isLoading = false;
-        });
+      } else {
+        await products.updateProduct(newProduct);
       }
-    } else {
-      products.updateProduct(newProduct);
       Navigator.of(context).pop();
+    } catch (error) {
+      await showDialog<Null>(
+        context: context,
+        builder: (ctx) => AlertDialog(
+          title: Text("Error"),
+          content: Text(
+            'Inespered Error',
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+              child: Text('ok'),
+            )
+          ],
+        ),
+      );
+    } finally {
       setState(() {
         _isLoading = false;
       });
