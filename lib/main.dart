@@ -10,6 +10,7 @@ import 'screens/product_overview_screen.dart';
 import 'screens/product_details_screen.dart';
 import 'provider/products.dart';
 import 'package:provider/provider.dart';
+import 'screens/auth_screen.dart';
 
 void main() {
   runApp(MyStore());
@@ -32,7 +33,7 @@ class MyStore extends StatelessWidget {
           accentColor: Colors.deepOrange,
           fontFamily: 'Lato',
         ),
-        home: ProductOverview(),
+        home: AuthScreen(),
         routes: {
           AppRoutes.Product_Details: (ctx) => ProductDetails(),
           AppRoutes.Cart: (ctx) => CartScreen(),
