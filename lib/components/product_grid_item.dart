@@ -1,3 +1,4 @@
+import 'package:app/provider/auth.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -12,6 +13,7 @@ class ProductGridItem extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final Product product = Provider.of<Product>(context, listen: false);
+    final Auth auth = Provider.of(context, listen: false);
     final Cart cart = Provider.of<Cart>(context, listen: false);
     return ClipRRect(
       borderRadius: BorderRadius.circular(10),
@@ -19,9 +21,13 @@ class ProductGridItem extends StatelessWidget {
         child: GestureDetector(
           onTap: () =>
               pushPage.pushPage(context, AppRoutes.Product_Details, product),
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
+          child: Hero(
+            tag: product.id,
+            child: FadeInImage(
+              placeholder: AssetImage('assets/images/product-placeholder.png'),
+              image: NetworkImage(product.imageUrl),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         footer: GridTileBar(
@@ -31,7 +37,8 @@ class ProductGridItem extends StatelessWidget {
               icon: Icon(
                   product.isFavorite ? Icons.favorite : Icons.favorite_border),
               onPressed: () async {
-                await product.toggleFavorite(product);
+                await product.toggleFavorite(
+                    product.id, auth.token ?? '', auth.userId ?? '');
               },
               color: Theme.of(context).accentColor,
             ),

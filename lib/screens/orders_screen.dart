@@ -20,6 +20,10 @@ class OrderScreen extends StatelessWidget {
             return Center(
               child: CircularProgressIndicator(),
             );
+          } else if (snapshot.error != null) {
+            return Center(
+              child: Text('Ocorreu um erro!'),
+            );
           } else {
             return Consumer<Orders>(
               builder: (ctx, orders, child) {

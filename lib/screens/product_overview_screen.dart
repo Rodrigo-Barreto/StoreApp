@@ -16,7 +16,7 @@ class ProductOverview extends StatefulWidget {
 }
 
 class _ProductOverviewState extends State<ProductOverview> {
-  bool toggleFAvorite = false;
+  bool toggleFavorite = false;
   final pushPage = new Navigation();
   bool isLoading = true;
 

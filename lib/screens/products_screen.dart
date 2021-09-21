@@ -16,7 +16,11 @@ class _ProductScreenState extends State<ProductScreen> {
     return Provider.of<Products>(context, listen: false).loadProducts();
   }
 
- 
+  @override
+  void initState() {
+    Provider.of<Products>(context, listen: false).loadProducts();
+    super.initState();
+  }
 
   @override
   final pushPage = Navigation();
